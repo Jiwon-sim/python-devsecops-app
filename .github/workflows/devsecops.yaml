@@ -27,3 +27,12 @@ jobs:
         push: true
         tags: zziwon/flask-devsecops:latest
 
+    - name: Run Bandit (Python SAST)
+      run: |
+        pip install bandit
+        bandit -r . -f json -o bandit-report.json || true
+
+    - name: Run Safety (Python SCA)
+      run: |
+        pip install safety
+        safety check --full-report --json > safety-report.json || true
