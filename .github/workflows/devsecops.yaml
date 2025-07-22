@@ -50,6 +50,15 @@ jobs:
         output: trivy-report.json
         exit-code: 0
         ignore-unfixed: true
+
+    - name: Run Trivy (Image Scan SARIF)
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: zziwon/flask-devsecops:latest
+        format: sarif
+        output: trivy-report.sarif
+        exit-code: 0
+        ignore-unfixed: true
         
     - name: Upload Artifact - Bandit Report
       uses: actions/upload-artifact@v4
@@ -68,3 +77,8 @@ jobs:
       with:
         name: trivy-report
         path: trivy-report.json
+
+    - name: Upload SARIF report 
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: trivy-report.sarif
